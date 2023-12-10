@@ -1,8 +1,8 @@
 from utilities.FileHandler import FileHandler
 import os
 
-directory = os.path.join('sistema_monitoreo_apollo_11', 'utilities')
-filename = "texto.txt"
+directory = os.path.join('sistema_monitoreo_apollo_11', 'devices')
+filename = "APLORBONE-0001.log"
 full_path = os.path.join(directory, filename)
 
 print(full_path)
