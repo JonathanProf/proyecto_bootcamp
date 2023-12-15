@@ -19,3 +19,7 @@
     * Tipo dispositivo: navigation system, satellite, Nave, Computador, Sensor Gravedad, Vehiculo Lunar, etc.
     * Los estados posibles para cada dispositivo son: excellent (excelente), good (bueno), warning (advertencia), faulty (defectuoso), killed (inoperable) y unknown (desconocido).
     * Hash: Generación de hash a partir de la fecha, misión, tipo de dispositivo y estado del dispositivo. Solo se genera hash si el nombre del archivo es diferente de **unknown**
+
+# Como se ejecuta el proyecto una vez instalado poetry
+1. Activación del entorno con ```poetry shell```
+2. Para ejecutar se debe ingresar el comando ```poetry run python sistema_monitoreo_apollo_11/main.py```
