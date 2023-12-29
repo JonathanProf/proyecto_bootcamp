@@ -23,3 +23,7 @@
 # Como se ejecuta el proyecto una vez instalado poetry
 1. Activación del entorno con ```poetry shell```
 2. Para ejecutar se debe ingresar el comando ```poetry run python sistema_monitoreo_apollo_11/main.py```
+
+
+# Preguntas para la tutoría
+¿Porque los nombres de los proyectos no coinciden para la generación de archivos?
