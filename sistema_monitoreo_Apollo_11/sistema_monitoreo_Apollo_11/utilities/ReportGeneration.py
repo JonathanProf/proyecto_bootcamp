@@ -35,5 +35,11 @@ class ReportGeneration:
                     data = file.read_string().split(',')
                     data_table.append(data)
         
-        df = pd.DataFrame(data_table, columns=['date', 'mission', 'device_type', 'device_status', 'hash'])
-        logging.debug(df)
+        self.dataframe = pd.DataFrame(data_table, columns=['date', 'mission', 'device_type', 'device_status', 'hash'])
+        logging.info(self.dataframe)
+    
+    def disconnections_report(self) -> None:
+
+        df2 = self.dataframe[self.dataframe["device_status"] == 'unknown']
+
+        logging.info(f'Cantidad de desconexiones encontradas {len(df2)}')
