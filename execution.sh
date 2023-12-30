@@ -1,0 +1,3 @@
+cd sistema_monitoreo_Apollo_11
+poetry shell
+poetry run python sistema_monitoreo_Apollo_11/main.py
