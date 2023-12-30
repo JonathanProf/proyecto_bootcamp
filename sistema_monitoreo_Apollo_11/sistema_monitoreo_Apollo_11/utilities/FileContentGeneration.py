@@ -16,5 +16,5 @@ class FileContentGenerator:
             self.hash = str(hash((self.date, self.mission, self.device_type, self.device_status)))
             return self.date + ',' + self.mission + ',' + self.device_type + ',' + self.device_status + ',' + self.hash
         else:
-            return self.date + ',' + self.mission + ',' + self.device_type + ',' + self.device_status
+            return self.date + ',' + self.mission + ',' + 'unknown' + ',' + 'unknown' + ',' + 'unknown'
 
