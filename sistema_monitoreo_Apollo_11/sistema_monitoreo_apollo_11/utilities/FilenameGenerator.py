@@ -1,7 +1,4 @@
-import logging
 import random
-
-logging.basicConfig(format='%(asctime)s -> %(levelname)s in FILE: %(filename)s [LINE %(lineno)d] - %(message)s', level=logging.DEBUG)
 
 class FilenameGenerator:
     """
@@ -10,19 +7,13 @@ class FilenameGenerator:
     """
 
     def __init__(self, folder_path):
-        self.mission = {
-            'ORBONE': 'OrbitOne',
-            'CLNM': 'ColonyMoon',
-            'TMRS': 'VacMars', 
-            'GALXONE': 'GalaxyTwo', 
-            'UNKN': 'Unknown'
-        }
+
         self.folder_path = folder_path
 
-    def filename_generator(self) -> str:
-        mission_selected = random.choice(list(self.mission.keys()))
+    def filename_generator(self, mission: str) -> str:
+        
         mission_number = random.randint(1, 1000)
-        filename = 'APL{0}-0000{1:04d}.log'.format(mission_selected, mission_number)
+        filename = 'APL{0}-0000{1:04d}.log'.format(mission, mission_number)
         
         return filename
 

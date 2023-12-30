@@ -3,6 +3,10 @@
 1. Repositorio con código correspondiente con la solución.
 2. Tablero de Trello con la distribución del trabajo y actividades asignadas por el grupo.
 
+# TODO
+1. Numeración automática para la generación de archivos.
+2. Carga de archivos y de su contenido para indexarlo en dataframes de pandas.
+
 # Objetivo general
 > Implementar un sistema de monitoreo basado en transmisión de archivos que operará en intervalos de 20 segundos. Este sistema permitirá mantener un control minucioso sobre el estado operativo de cada uno de los satélites, naves espaciales, vehículos espaciales y otros componentes clave.
 
@@ -27,3 +31,4 @@
 
 # Preguntas para la tutoría
 ¿Porque los nombres de los proyectos no coinciden para la generación de archivos?
+Por ejemplo: Se pide generar hash solo si el nombre del archivo no es "unknown" pero realmente el archivo puede llamarse UNKN, la confusión es porque unknown es un estado del dispositivo y de este no debería depender el nombre del archivo porque no es una misión.

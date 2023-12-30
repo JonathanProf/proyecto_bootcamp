@@ -1,8 +1,6 @@
 import os
 import logging
 
-logging.basicConfig(format='%(asctime)s -> %(levelname)s in FILE: %(filename)s [LINE %(lineno)d] - %(message)s', level=logging.DEBUG)
-
 class FileHandler:
 
     def __init__(self, file_path):
@@ -24,5 +22,9 @@ class FileHandler:
     
     def write_file(self, text: str) -> bool:
         """Write text to the file"""
-        with open(self.file_path, "w") as file:
-            return file.write(text)
+        try:
+            with open(self.file_path, "w") as file:
+                return file.write(text)
+        except:
+            logging.error('Cannot open file')
+            return None
