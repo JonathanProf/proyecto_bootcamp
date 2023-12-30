@@ -1,6 +1,7 @@
 import logging
 import os
 from  utilities.FileHandler import FileHandler
+import pandas as pd
 
 class ReportGeneration:
     """
@@ -17,8 +18,11 @@ class ReportGeneration:
 
         files = os.listdir(self.folder_path)
         files = [file for file in files if file.endswith(".log")]
+        files.sort()
 
         logging.debug( files )
+
+        data_table = []
 
         for filename in files:
             if filename.endswith('.log'):
@@ -27,3 +31,9 @@ class ReportGeneration:
 
                 if file.file_exists() is True:
                     logging.debug( f'{filename} exists? {file.read_string()}' )
+
+                    data = file.read_string().split(',')
+                    data_table.append(data)
+        
+        df = pd.DataFrame(data_table, columns=['date', 'mission', 'device_type', 'device_status', 'hash'])
+        logging.debug(df)
