@@ -50,6 +50,7 @@ if opcion_menu == 1:
 elif opcion_menu == 2:
     report = ReportGeneration(directory)
     report.read_files()
+    report.disconnections_report()
 else:
     print("Opcion incorrecta, intente de nuevo")
 
