@@ -43,3 +43,8 @@ class ReportGeneration:
         df2 = self.dataframe[self.dataframe["device_status"] == 'unknown']
 
         logging.info(f'Cantidad de desconexiones encontradas {len(df2)}')
+
+        logging.info("Desconexiones reportadas por misión")
+
+        for device, value in df2.groupby('device_type')['device_status'].count().to_dict().items():
+            logging.info(f'Hay {value} desconexiones para el dispositivo {device}')

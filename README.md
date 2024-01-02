@@ -1,11 +1,12 @@
 # Sistema de monitoreo Apollo-11
+# Preguntas para la tutoría
+1. ¿Porque los nombres de los proyectos no coinciden para la generación de archivos?
+Por ejemplo: Se pide generar hash solo si el nombre del archivo no es "unknown" pero realmente el archivo puede llamarse UNKN, la confusión es porque unknown es un estado del dispositivo y de este no debería depender el nombre del archivo porque no es una misión.
+2. Se hace necesaria la aclaración del literal 3 del punto 4.2 Generación de archivos y contenido, ya que nos genera confusión en la interpretación
+
 ## Entregables
 1. Repositorio con código correspondiente con la solución.
 2. Tablero de Trello con la distribución del trabajo y actividades asignadas por el grupo.
-
-# TODO
-1. Numeración automática para la generación de archivos por misión.
-2. Avance en la generación de reportes.
 
 # Objetivo general
 > Implementar un sistema de monitoreo basado en transmisión de archivos que operará en intervalos de 20 segundos. Este sistema permitirá mantener un control minucioso sobre el estado operativo de cada uno de los satélites, naves espaciales, vehículos espaciales y otros componentes clave.
@@ -27,8 +28,3 @@
 # Como se ejecuta el proyecto una vez instalado poetry
 1. Activación del entorno con ```poetry shell```
 2. Para ejecutar se debe ingresar el comando ```poetry run python sistema_monitoreo_apollo_11/main.py```
-
-
-# Preguntas para la tutoría
-¿Porque los nombres de los proyectos no coinciden para la generación de archivos?
-Por ejemplo: Se pide generar hash solo si el nombre del archivo no es "unknown" pero realmente el archivo puede llamarse UNKN, la confusión es porque unknown es un estado del dispositivo y de este no debería depender el nombre del archivo porque no es una misión.
