@@ -43,15 +43,25 @@ if opcion_menu == 1:
         
         full_path = os.path.join(directory, filename)
         file = FileHandler(full_path)
-
-        
         file.write_file(text_to_write)
 
 elif opcion_menu == 2:
+
+    date = datetime.now().strftime("%d%m%y%H%M%S")
+    
+    # Generation filename
+    directory_report = os.path.join('sistema_monitoreo_Apollo_11', 'report')
+    filename = FilenameGenerator(directory_report)
+    filename = filename.filename_generator_report(date)
+
     report = ReportGeneration(directory)
     report.read_files()
-    report.disconnections_report()
-    report.event_analysis()
+    text_to_write = report.disconnections_report()
+    text_to_write += report.event_analysis()
+
+    full_path = os.path.join(directory_report, filename)
+    file = FileHandler(full_path)
+    file.write_file(text_to_write)
 else:
     print("Opcion incorrecta, intente de nuevo")
 

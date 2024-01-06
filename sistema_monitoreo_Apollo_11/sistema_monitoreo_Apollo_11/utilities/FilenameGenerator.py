@@ -16,4 +16,10 @@ class FilenameGenerator:
         filename = 'APL{0}-0000{1:04d}.log'.format(mission, mission_number)
         
         return filename
+    
+    def filename_generator_report(self, date: str) -> str:
+        
+        filename = 'APLSTATS-REPORTE-{0}.log'.format(date)
+        
+        return filename
 
