@@ -46,27 +46,40 @@ class ReportGeneration:
             self.dataframe.to_csv('output.csv', index=False)
         logging.info(self.dataframe)
     
-    def disconnections_report(self) -> None:
+    def disconnections_report(self) -> str:
 
         df2 = self.dataframe[self.dataframe["device_status"] == 'unknown']
 
-        logging.info(f'Cantidad de desconexiones encontradas {len(df2)}')
-
-        logging.info("Desconexiones reportadas por misión")
+        msg = f'Cantidad de desconexiones encontradas {len(df2)}\n'
+        msg += f'{"="*50}\n'
+        msg += "Desconexiones reportadas por misión\n"
+        msg += f'{"="*50}\n'
 
         for device, value in df2.groupby('device_type')['device_status'].count().to_dict().items():
-            logging.info(f'Hay {value} desconexiones para el dispositivo {device}')
+            msg += f'Hay {value} desconexiones para el dispositivo {device}\n'
+        
+        msg += f'{"="*50}\n'
+        
+        logging.info(msg)
+        return msg
 
-    def event_analysis(self) -> None:
+    def event_analysis(self) -> str:
         
         dict_report = self.dataframe.groupby(by=['mission', 'device_type', 'device_status'])['device_status'].count().to_dict()
 
-        logging.info("Eventos por estado para cada misión y dispositivo")
+        msg = f'{"="*50}\n'
+        msg += "Analisis de eventos por estado para cada misión y dispositivo\n"
         
-        table = []
+        
+        msg += "| {0} | {1} | {2} | {3} |\n".format('Mission'.center(20), 'Device Type'.center(20), 'Device Status'.center(20), 'Event Occurrence Number'.center(20))
+        msg += f'{"-"*95}\n'
         for k, event_occurrence_number in dict_report.items():
-            row = list(k)
-            row.append(event_occurrence_number)
-            table.append(row)
+            mission, device_type, device_status = k
+            msg += "| {0} | {1} | {2} | {3} |\n".format(mission.center(20), device_type.center(20), device_status.center(20), str(event_occurrence_number).center(23))
 
-        logging.info(tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Event Occurrence Number']))
+        msg += f'{"-"*95}\n'
+        
+        logging.info(msg)
+        return msg
+
+        
