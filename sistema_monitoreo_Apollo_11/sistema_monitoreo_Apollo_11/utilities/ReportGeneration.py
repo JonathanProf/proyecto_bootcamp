@@ -105,17 +105,49 @@ class ReportGeneration:
         df_consolidation = self.dataframe[self.dataframe["device_status"] == 'killed']
         dict_report = df_consolidation.groupby(['mission', 'device_type'])['device_status'].count().to_dict()
 
-        table = []
+        table_killed_by_mission_and_device = []
+        table_killed_by_mission = []
+        dict_consolitation_by_mission = {}
+
         msg = f'\n\n{"="*100}\n'
         msg += "Consolidación de misiones para dispositivos inoperables".center(100)
         msg += f'\n{"="*100}\n'
-        for k, event_occurrence_number in dict_report.items():
-            row = list(k)
-            row.append(event_occurrence_number)
-            table.append(row)
 
-        msg += tabulate(table, headers=['Mission', 'Device Type', 'Number Killed Devices'], tablefmt="grid")
+        for k, event_occurrence_number in dict_report.items():
+            mission, device_type = k
+            row = [mission, device_type]
+            row.append(event_occurrence_number)
+            table_killed_by_mission_and_device.append(row)
+
+            if mission in dict_consolitation_by_mission:
+                dict_consolitation_by_mission[mission] += 1
+            else:
+                dict_consolitation_by_mission[mission] = 1
+        
+
+        msg += f'\n\n{"="*100}\n'
+        msg += "Consolidación de dispositivos inoperables por misión y dispositivos".center(100)
         msg += f'\n{"="*100}\n'
+
+        msg += tabulate(table_killed_by_mission_and_device, headers=['Mission', 'Device Type', 'Number Killed Devices'], tablefmt="grid")
+        msg += f'\n{"="*100}\n\n'
+
+
+        for mission, number in dict_consolitation_by_mission.items():
+            table_killed_by_mission.append([mission, number])
+        
+        msg += f'\n\n{"="*100}\n'
+        msg += "Consolidación de dispositivos inoperables por misión".center(100)
+        msg += f'\n{"="*100}\n'
+        msg += tabulate(table_killed_by_mission, headers=['Mission', 'Number Killed Devices'], tablefmt="grid")
+        print(msg)
+
+
+        num_killed = len(df_consolidation)
+
+        msg += f'\n\n{"="*100}\n'
+        msg += f'\nEl total de dispositivos inoperables (estado killed) son: {num_killed}\n\n'
+        msg += f'\n\n{"="*100}\n'
 
         logging.info(msg)
         return msg
