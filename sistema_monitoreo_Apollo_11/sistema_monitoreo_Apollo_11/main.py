@@ -58,6 +58,7 @@ elif opcion_menu == 2:
     report.read_files()
     text_to_write = report.disconnections_report()
     text_to_write += report.event_analysis()
+    text_to_write += report.mission_consolidation()
 
     full_path = os.path.join(directory_report, filename)
     file = FileHandler(full_path)
