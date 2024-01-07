@@ -45,8 +45,41 @@ class ReportGeneration:
         if self.debug == True:
             self.dataframe.to_csv('output.csv', index=False)
         logging.info(self.dataframe)
+
+
+    def event_analysis(self) -> str:
+        """
+        b) Análisis de eventos
+        Se deberá realizar un análisis de la cantidad de eventos por estado para
+        cada misión y dispositivo.
+        """
+        
+        dict_report = self.dataframe.groupby(by=['mission', 'device_type', 'device_status'])['device_status'].count().to_dict()
+
+        msg = f'{"="*50}\n'
+        msg += "Analisis de eventos por estado para cada misión y dispositivo\n"
+        
+        
+        table = []
+        for k, event_occurrence_number in dict_report.items():
+            row = list(k)
+            row.append(event_occurrence_number)
+            table.append(row)
+
+        msg += tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Event Occurrence Number'], tablefmt="grid")
+        
+        
+        logging.info(msg)
+        return msg
+    
     
     def disconnections_report(self) -> str:
+        """
+        c) Gestión de desconexiones
+        Es necesario identificar los dispositivos que presentan un mayor número
+        de desconexiones, específicamente en el estado "unknown", para cada
+        misión.
+        """
 
         df2 = self.dataframe[self.dataframe["device_status"] == 'unknown']
 
@@ -61,25 +94,4 @@ class ReportGeneration:
         msg += f'{"="*50}\n'
         
         logging.info(msg)
-        return msg
-
-    def event_analysis(self) -> str:
-        
-        dict_report = self.dataframe.groupby(by=['mission', 'device_type', 'device_status'])['device_status'].count().to_dict()
-
-        msg = f'{"="*50}\n'
-        msg += "Analisis de eventos por estado para cada misión y dispositivo\n"
-        
-        
-        msg += "| {0} | {1} | {2} | {3} |\n".format('Mission'.center(20), 'Device Type'.center(20), 'Device Status'.center(20), 'Event Occurrence Number'.center(20))
-        msg += f'{"-"*95}\n'
-        for k, event_occurrence_number in dict_report.items():
-            mission, device_type, device_status = k
-            msg += "| {0} | {1} | {2} | {3} |\n".format(mission.center(20), device_type.center(20), device_status.center(20), str(event_occurrence_number).center(23))
-
-        msg += f'{"-"*95}\n'
-        
-        logging.info(msg)
-        return msg
-
-        
+        return msg       
