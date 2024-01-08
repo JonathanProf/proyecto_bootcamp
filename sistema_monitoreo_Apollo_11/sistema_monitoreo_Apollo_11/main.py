@@ -29,7 +29,7 @@ if opcion_menu == 1:
     date = datetime.now().strftime("%d%m%y%H%M%S")
     device_type = ['navigation system', 'satellite', 'main computer', 'thermal camera']
     device_status = ['excellent', 'good', 'warning', 'faulty', 'killed', 'unknown']
-    for _ in range(10):
+    for _ in range(100):
 
         # Content generator
         mission_selected = random.choice(list(mission.keys()))
@@ -41,8 +41,8 @@ if opcion_menu == 1:
         logging.debug(text_to_write)
         # File generator
         
-        full_path = os.path.join(directory, filename)
-        file = FileHandler(full_path)
+
+        file = FileHandler(directory, filename)
         file.write_file(text_to_write)
 
 elif opcion_menu == 2:
@@ -60,8 +60,8 @@ elif opcion_menu == 2:
     text_to_write += report.event_analysis()
     text_to_write += report.mission_consolidation()
 
-    full_path = os.path.join(directory_report, filename)
-    file = FileHandler(full_path)
+
+    file = FileHandler(directory_report, filename)
     file.write_file(text_to_write)
 else:
     print("Opcion incorrecta, intente de nuevo")

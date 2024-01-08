@@ -14,9 +14,10 @@ class ReportGeneration:
         folder_path: str = this variable allows us to locate the directory where the files to be analyzed
         """
         self.folder_path = folder_path
+        self.total_files_available = 0
         self.debug = False
     
-    def read_files(self, ) -> None:
+    def read_files(self) -> None:
 
         if self.debug == True:
             self.folder_path = os.path.join('sistema_monitoreo_Apollo_11', 'sistema_monitoreo_Apollo_11', 'devices')
@@ -25,14 +26,16 @@ class ReportGeneration:
         files = [file for file in files if file.endswith(".log")]
         files.sort()
 
+        self.total_files_available = len(files)
+
         logging.debug( files )
 
         data_table = []
 
         for filename in files:
             if filename.endswith('.log'):
-                filename = os.path.join(self.folder_path, filename)
-                file = FileHandler(filename)
+
+                file = FileHandler(self.folder_path, filename)
 
                 if file.file_exists() is True:
                     logging.debug( f'{filename} exists? {file.read_string()}' )
@@ -64,9 +67,10 @@ class ReportGeneration:
         for k, event_occurrence_number in dict_report.items():
             row = list(k)
             row.append(event_occurrence_number)
+            row.append( '{0:.1f} %'.format( event_occurrence_number / self.total_files_available * 100) )
             table.append(row)
 
-        msg += tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Number Unknown Devices'], tablefmt="grid")
+        msg += tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Number Unknown Devices', f'% [respect total of {self.total_files_available} dev]'], tablefmt="grid")
         
         logging.info(msg)
         return msg
