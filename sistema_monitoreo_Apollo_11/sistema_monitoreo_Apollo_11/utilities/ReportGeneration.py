@@ -110,8 +110,6 @@ class ReportGeneration:
         dict_report = df_consolidation.groupby(['mission', 'device_type'])['device_status'].count().to_dict()
 
         table_killed_by_mission_and_device = []
-        table_killed_by_mission = []
-        dict_consolitation_by_mission = {}
 
         msg = f'\n\n{"="*100}\n'
         msg += "Consolidación de misiones para dispositivos inoperables".center(100)
@@ -121,30 +119,16 @@ class ReportGeneration:
             mission, device_type = k
             row = [mission, device_type]
             row.append(event_occurrence_number)
+            row.append( '{0:.1f} %'.format( event_occurrence_number / self.total_files_available * 100) )
             table_killed_by_mission_and_device.append(row)
-
-            if mission in dict_consolitation_by_mission:
-                dict_consolitation_by_mission[mission] += 1
-            else:
-                dict_consolitation_by_mission[mission] = 1
         
 
         msg += f'\n\n{"="*100}\n'
         msg += "Consolidación de dispositivos inoperables por misión y dispositivos".center(100)
         msg += f'\n{"="*100}\n'
 
-        msg += tabulate(table_killed_by_mission_and_device, headers=['Mission', 'Device Type', 'Number Killed Devices'], tablefmt="grid")
+        msg += tabulate(table_killed_by_mission_and_device, headers=['Mission', 'Device Type', 'Number Killed Devices', '% [respect total of 100 dev]'], tablefmt="grid")
         msg += f'\n{"="*100}\n\n'
-
-
-        for mission, number in dict_consolitation_by_mission.items():
-            table_killed_by_mission.append([mission, number])
-        
-        msg += f'\n\n{"="*100}\n'
-        msg += "Consolidación de dispositivos inoperables por misión".center(100)
-        msg += f'\n{"="*100}\n'
-        msg += tabulate(table_killed_by_mission, headers=['Mission', 'Number Killed Devices'], tablefmt="grid")
-        print(msg)
 
 
         num_killed = len(df_consolidation)
