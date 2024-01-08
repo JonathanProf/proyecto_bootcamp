@@ -17,7 +17,7 @@ class ReportGeneration:
         self.total_files_available = 0
         self.debug = False
     
-    def read_files(self, ) -> None:
+    def read_files(self) -> None:
 
         if self.debug == True:
             self.folder_path = os.path.join('sistema_monitoreo_Apollo_11', 'sistema_monitoreo_Apollo_11', 'devices')
@@ -34,8 +34,8 @@ class ReportGeneration:
 
         for filename in files:
             if filename.endswith('.log'):
-                filename = os.path.join(self.folder_path, filename)
-                file = FileHandler(filename)
+
+                file = FileHandler(self.folder_path, filename)
 
                 if file.file_exists() is True:
                     logging.debug( f'{filename} exists? {file.read_string()}' )

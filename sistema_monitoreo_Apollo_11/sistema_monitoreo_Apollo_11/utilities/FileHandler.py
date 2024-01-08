@@ -3,8 +3,14 @@ import logging
 
 class FileHandler:
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, directory_path: str, filename: str):
+
+        if not os.path.isdir(directory_path):
+            os.makedirs(directory_path, exist_ok=True)
+            logging.debug(f"Folder creation {directory_path}")
+            
+
+        self.file_path = os.path.join(directory_path, filename)
 
     def file_exists(self) -> bool:
         """Determine if a file exists"""
