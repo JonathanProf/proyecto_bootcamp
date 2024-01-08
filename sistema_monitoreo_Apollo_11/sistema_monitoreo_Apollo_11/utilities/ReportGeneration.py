@@ -14,6 +14,7 @@ class ReportGeneration:
         folder_path: str = this variable allows us to locate the directory where the files to be analyzed
         """
         self.folder_path = folder_path
+        self.total_files_available = 0
         self.debug = False
     
     def read_files(self, ) -> None:
@@ -24,6 +25,8 @@ class ReportGeneration:
         files = os.listdir(self.folder_path)
         files = [file for file in files if file.endswith(".log")]
         files.sort()
+
+        self.total_files_available = len(files)
 
         logging.debug( files )
 
@@ -64,9 +67,10 @@ class ReportGeneration:
         for k, event_occurrence_number in dict_report.items():
             row = list(k)
             row.append(event_occurrence_number)
+            row.append( '{0:.1f} %'.format( event_occurrence_number / self.total_files_available * 100) )
             table.append(row)
 
-        msg += tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Number Unknown Devices'], tablefmt="grid")
+        msg += tabulate(table, headers=['Mission', 'Device Type', 'Device Status', 'Number Unknown Devices', f'% [respect total of {self.total_files_available} dev]'], tablefmt="grid")
         
         logging.info(msg)
         return msg
