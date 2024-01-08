@@ -45,8 +45,6 @@ class ReportGeneration:
         
         self.dataframe = pd.DataFrame(data_table, columns=['date', 'mission', 'device_type', 'device_status', 'hash'])
 
-        if self.debug == True:
-            self.dataframe.to_csv('output.csv', index=False)
         logging.info(self.dataframe)
 
 
@@ -110,8 +108,6 @@ class ReportGeneration:
         dict_report = df_consolidation.groupby(['mission', 'device_type'])['device_status'].count().to_dict()
 
         table_killed_by_mission_and_device = []
-        table_killed_by_mission = []
-        dict_consolitation_by_mission = {}
 
         msg = f'\n\n{"="*100}\n'
         msg += "Consolidación de misiones para dispositivos inoperables".center(100)
@@ -121,37 +117,49 @@ class ReportGeneration:
             mission, device_type = k
             row = [mission, device_type]
             row.append(event_occurrence_number)
+            row.append( '{0:.1f} %'.format( event_occurrence_number / self.total_files_available * 100) )
             table_killed_by_mission_and_device.append(row)
-
-            if mission in dict_consolitation_by_mission:
-                dict_consolitation_by_mission[mission] += 1
-            else:
-                dict_consolitation_by_mission[mission] = 1
         
 
         msg += f'\n\n{"="*100}\n'
         msg += "Consolidación de dispositivos inoperables por misión y dispositivos".center(100)
         msg += f'\n{"="*100}\n'
 
-        msg += tabulate(table_killed_by_mission_and_device, headers=['Mission', 'Device Type', 'Number Killed Devices'], tablefmt="grid")
+        msg += tabulate(table_killed_by_mission_and_device, headers=['Mission', 'Device Type', 'Number Killed Devices', f'% [respect total of {self.total_files_available} dev]'], tablefmt="grid")
         msg += f'\n{"="*100}\n\n'
-
-
-        for mission, number in dict_consolitation_by_mission.items():
-            table_killed_by_mission.append([mission, number])
-        
-        msg += f'\n\n{"="*100}\n'
-        msg += "Consolidación de dispositivos inoperables por misión".center(100)
-        msg += f'\n{"="*100}\n'
-        msg += tabulate(table_killed_by_mission, headers=['Mission', 'Number Killed Devices'], tablefmt="grid")
-        print(msg)
-
 
         num_killed = len(df_consolidation)
 
+        # Consolidation by mission
+        dict_report_by_mission = df_consolidation.groupby(['mission'])['device_status'].count().to_dict()
+        dict_report_by_mission
+
+        table_killed_by_mission = []
+
+        for mission, event_occurrence_number in dict_report_by_mission.items():
+            row = [mission]
+            row.append(event_occurrence_number)
+            row.append( '{0:.1f} %'.format( event_occurrence_number / self.total_files_available * 100) )
+            table_killed_by_mission.append(row)
+
+
+        msg += f'\n\n{"="*100}\n'
+        msg += "Consolidación de dispositivos inoperables por misión".center(100)
+        msg += f'\n{"="*100}\n'
+
+        msg += tabulate(table_killed_by_mission, headers=['Mission', 'Number Killed Devices', f'% [respect total of {self.total_files_available} dev]'], tablefmt="grid")
+        msg += f'\n{"="*100}\n\n'
+
+
+        # Total
         msg += f'\n\n{"="*100}\n'
         msg += f'\nEl total de dispositivos inoperables (estado killed) son: {num_killed}\n\n'
         msg += f'\n\n{"="*100}\n'
 
         logging.info(msg)
         return msg
+    
+
+    def print_csv_with_dataframe(self) -> None:
+
+        self.dataframe.to_csv('output.csv', index=False)

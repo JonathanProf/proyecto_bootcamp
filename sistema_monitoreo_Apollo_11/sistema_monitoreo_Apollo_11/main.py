@@ -63,6 +63,9 @@ elif opcion_menu == 2:
 
     file = FileHandler(directory_report, filename)
     file.write_file(text_to_write)
+
+    # Print csv of dataframe to see all data collected from files
+    report.print_csv_with_dataframe()
 else:
     print("Opcion incorrecta, intente de nuevo")
 
