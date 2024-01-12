@@ -28,3 +28,9 @@ Por ejemplo: Se pide generar hash solo si el nombre del archivo no es "unknown" 
 # Como se ejecuta el proyecto una vez instalado poetry
 1. Activación del entorno con ```poetry shell```
 2. Para ejecutar se debe ingresar el comando ```poetry run python sistema_monitoreo_apollo_11/main.py```
+
+
+# Ejecución flake 8
+```
+flake8 sistema_monitoreo_Apollo_11
+```
