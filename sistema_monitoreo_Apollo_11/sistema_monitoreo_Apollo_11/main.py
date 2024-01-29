@@ -6,11 +6,12 @@ import os
 from datetime import datetime
 import random
 import logging
-logging.basicConfig(format='%(asctime)s -> %(levelname)s in FILE: %(filename)s [LINE %(lineno)d] - %(message)s', level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s -> %(levelname)s in FILE: %(filename)s [LINE %(lineno)d] - %(message)s', level=logging.INFO)
 
 directory = os.path.join('sistema_monitoreo_Apollo_11', 'devices')
 
-# Inicio de simulación para generación de archivos, primero se realizará una simulación para 10 archivos y luego se escalará en las siguientes pruebas
+# Inicio de simulación para generación de archivos
 print("===================================")
 print("= Ingrese 1 para generar archivos =")
 print("= Ingrese 2 para generar reporte  =")
@@ -22,13 +23,15 @@ if opcion_menu == 1:
     mission = {
         'ORBONE': 'OrbitOne',
         'CLNM': 'ColonyMoon',
-        'TMRS': 'VacMars', 
-        'GALXONE': 'GalaxyTwo', 
+        'TMRS': 'VacMars',
+        'GALXONE': 'GalaxyTwo',
         'UNKN': 'Unknown'
     }
     date = datetime.now().strftime("%d%m%y%H%M%S")
-    device_type = ['navigation system', 'satellite', 'main computer', 'thermal camera']
-    device_status = ['excellent', 'good', 'warning', 'faulty', 'killed', 'unknown']
+    device_type = ['navigation system', 'satellite',
+                   'main computer', 'thermal camera']
+    device_status = ['excellent', 'good',
+                     'warning', 'faulty', 'killed', 'unknown']
     for _ in range(100):
 
         # Content generator
@@ -36,11 +39,12 @@ if opcion_menu == 1:
         filename = FilenameGenerator(directory)
         filename = filename.filename_generator(mission_selected)
 
-        content = FileContentGenerator(filename=filename, mission=mission[mission_selected], date=date, device_type= random.choice(device_type), device_status= random.choice(device_status))
+        content = FileContentGenerator(filename=filename, mission=mission[mission_selected], date=date,
+                                       device_type=random.choice(
+            device_type), device_status=random.choice(device_status))
         text_to_write = content.get_content()
         logging.debug(text_to_write)
         # File generator
-        
 
         file = FileHandler(directory, filename)
         file.write_file(text_to_write)
@@ -48,7 +52,7 @@ if opcion_menu == 1:
 elif opcion_menu == 2:
 
     date = datetime.now().strftime("%d%m%y%H%M%S")
-    
+
     # Generation filename
     directory_report = os.path.join('sistema_monitoreo_Apollo_11', 'report')
     filename = FilenameGenerator(directory_report)
@@ -59,7 +63,6 @@ elif opcion_menu == 2:
     text_to_write = report.disconnections_report()
     text_to_write += report.event_analysis()
     text_to_write += report.mission_consolidation()
-
 
     file = FileHandler(directory_report, filename)
     file.write_file(text_to_write)

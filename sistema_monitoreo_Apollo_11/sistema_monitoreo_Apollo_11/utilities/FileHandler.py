@@ -1,6 +1,7 @@
 import os
 import logging
 
+
 class FileHandler:
 
     def __init__(self, directory_path: str, filename: str):
@@ -8,7 +9,6 @@ class FileHandler:
         if not os.path.isdir(directory_path):
             os.makedirs(directory_path, exist_ok=True)
             logging.debug(f"Folder creation {directory_path}")
-            
 
         self.file_path = os.path.join(directory_path, filename)
 
@@ -21,16 +21,15 @@ class FileHandler:
         try:
             with open(self.file_path, "r") as file:
                 return file.read()
-        except:
-            logging.error('Cannot read file')
+        except Exception as error:
+            logging.error(f'Cannot read file {error}')
             return None
-            
-    
+
     def write_file(self, text: str) -> bool:
         """Write text to the file"""
         try:
             with open(self.file_path, "w") as file:
                 return file.write(text)
-        except:
-            logging.error('Cannot open file')
+        except Exception as error:
+            logging.error(f'Cannot open file {error}')
             return None
