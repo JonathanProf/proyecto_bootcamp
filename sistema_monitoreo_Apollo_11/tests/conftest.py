@@ -16,6 +16,8 @@ def app(request):
         pass
     app = App()
     app.filename_generator = FilenameGenerator
-    app.filehandler = FileHandler
+    app.file_handler = FileHandler
+    app.report_generation = ReportGeneration
+    app.file_content_generation = FileContentGeneration
     
     return app
